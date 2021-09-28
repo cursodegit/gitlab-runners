@@ -1,0 +1,8 @@
+---
+- name: "Remove ssh keys from Digital Ocean"
+  community.digitalocean.digital_ocean_sshkey:
+    oauth_token: "{{ oauth_token }}"
+    name: "{{ item.key }} SSH Key"
+    ssh_pub_key: "{{ lookup('file', item.value.public_key) }}"
+    state: absent
+  with_dict: "{{ user_keys }}"

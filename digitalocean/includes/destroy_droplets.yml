@@ -1,0 +1,14 @@
+- name: destroy droplets
+  community.digitalocean.digital_ocean_droplet:
+    state: absent
+    name: "{{ item.name}}"
+    oauth_token: "{{ oauth_token }}"
+    size: "{{ item.size }}"
+    region: "{{ item.region }}"
+    image: "{{ item.image }}"
+    wait_timeout: 500
+    tags: "{{ item.tags }}"
+    ssh_keys: "{{ lookup('file', user_keys[item.user_key].fingerprint) }}"
+    unique_name: true
+  register: destroyed_droplets
+  with_items: "{{ droplets }}"

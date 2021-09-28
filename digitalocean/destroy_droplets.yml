@@ -1,0 +1,18 @@
+---
+- name: Manage Digital Ocean keys 
+  hosts: localhost
+  tasks: 
+    - name: Load vars
+      ansible.builtin.include_vars:
+        file: vars.yml
+    
+    - name: Load project vars
+      ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
+      vars:
+        params: 
+          files:
+            - ../project.yml
+            - vars.yml
+    - name: "Include destroy_droplets.yml"
+      ansible.builtin.include_tasks: 
+        file: includes/destroy_droplets.yml 
